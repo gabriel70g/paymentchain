@@ -98,8 +98,10 @@ public class CustomerRestController {
         x.setProductName(productName);
         });
 
-        return  customer;
-
+        //find all transactions that belong this account number
+        List<?> transactions = getTransactions(customer.getIban());
+        customer.setTransactions(transactions);
+        return customer;
     }
 
     private  String getProductsName(long id){
@@ -114,4 +116,27 @@ public class CustomerRestController {
         return name;
 
     }
+
+    /**
+     * Call Transaction Microservice and Find all transaction that belong to the account give
+     * @param iban account number of the customer
+     * @return All transaction that belong this account
+     */
+    private  List<?> getTransactions(String  iban) {
+        WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
+                .baseUrl("http://localhost:8082/transaction")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+
+        List<?> transactions = build.method(HttpMethod.GET).uri(uriBuilder -> uriBuilder
+                        .path("/customer/transactions")
+                        .queryParam("ibanAccount", iban)
+                        .build())
+                .retrieve().bodyToFlux(Object.class).collectList().block();
+
+
+        return transactions;
+    }
+
 }
