@@ -6,11 +6,15 @@ package com.paymentchain.product.repository;
 
 import com.paymentchain.product.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 
 /**
  *
  * @author A308779
  */
+
+
 public interface ProductRepository extends JpaRepository<Product, Long> {
     
 }
