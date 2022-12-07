@@ -9,7 +9,9 @@
     <groupId>com.paymentchain.infraestructuradomain</groupId>
     <artifactId>infraestructuradomain</artifactId>
     <packaging>pom</packaging>
-    
+    <modules>
+        <module>eurekaserver</module>
+    </modules>
     <properties>
         <spring-cloud-dependencies.version>2021.0.4</spring-cloud-dependencies.version>
     </properties>

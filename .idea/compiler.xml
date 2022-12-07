@@ -7,8 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="transactions" />
+        <module name="eurekaserver" />
         <module name="product" />
+        <module name="transactions" />
         <module name="customer" />
       </profile>
     </annotationProcessing>
