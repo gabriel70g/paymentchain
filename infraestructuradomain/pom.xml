@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>eurekaserver</module>
+        <module>adminserver</module>
     </modules>
     <properties>
         <spring-cloud-dependencies.version>2021.0.4</spring-cloud-dependencies.version>

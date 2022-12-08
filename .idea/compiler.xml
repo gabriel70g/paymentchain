@@ -13,5 +13,8 @@
         <module name="customer" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="adminserver" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
