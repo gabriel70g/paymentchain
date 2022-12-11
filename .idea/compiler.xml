@@ -10,11 +10,9 @@
         <module name="eurekaserver" />
         <module name="product" />
         <module name="transactions" />
+        <module name="adminserver" />
         <module name="customer" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="adminserver" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

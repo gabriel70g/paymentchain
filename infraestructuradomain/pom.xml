@@ -14,7 +14,7 @@
         <module>adminserver</module>
     </modules>
     <properties>
-        <spring-cloud-dependencies.version>2021.0.4</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.0</spring-cloud-dependencies.version>
     </properties>
     
     <!--Allows consolidate and centralized management of deendency version witout adding dependencies

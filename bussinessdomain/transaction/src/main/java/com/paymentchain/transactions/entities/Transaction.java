@@ -13,10 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-/**
- *
- * @author sotobotero
- */
+
 @Data
 @Entity
 public class Transaction {

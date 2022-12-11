@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-/**
- *
- * @author sotobotero
- */
 @RestController
 @RequestMapping("/transaction")
 public class TransactionRestController {

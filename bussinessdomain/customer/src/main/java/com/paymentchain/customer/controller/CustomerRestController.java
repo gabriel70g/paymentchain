@@ -16,17 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
 
 
 @RestController
@@ -73,7 +72,9 @@ public class CustomerRestController {
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Customer input) {
 
-        input.getProducts().forEach(x -> x.setCustomer(input));
+        for (CustomerProduct x : input.getProducts ()) {
+            x.setCustomer(input);
+        }
 
         Customer save = customerRepository.save(input);
         return ResponseEntity.ok(save);
