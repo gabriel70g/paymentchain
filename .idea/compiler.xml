@@ -11,8 +11,14 @@
         <module name="product" />
         <module name="transactions" />
         <module name="adminserver" />
+        <module name="configServer" />
         <module name="customer" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="configServer" options="" />
+    </option>
   </component>
 </project>
