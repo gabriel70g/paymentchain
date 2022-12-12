@@ -5,19 +5,24 @@
 package com.paymentchain.customer.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Transient;
 import lombok.Data;
 
-import javax.persistence.*;
 
-/**
- *
- * @author sotobotero
- */
-@Data
 @Entity
+@Data
 public class CustomerProduct {
-    
-       @Id
+ 
+    @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private long productId;

@@ -16,17 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
 
 
 @RestController
@@ -73,7 +72,9 @@ public class CustomerRestController {
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Customer input) {
 
-        input.getProducts().forEach(x -> x.setCustomer(input));
+        for (CustomerProduct x : input.getProducts ()) {
+            x.setCustomer(input);
+        }
 
         Customer save = customerRepository.save(input);
         return ResponseEntity.ok(save);
@@ -98,15 +99,17 @@ public class CustomerRestController {
         x.setProductName(productName);
         });
 
-        return  customer;
-
+        //find all transactions that belong this account number
+        List<?> transactions = getTransactions(customer.getIban());
+        customer.setTransactions(transactions);
+        return customer;
     }
 
     private  String getProductsName(long id){
         WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
-                .baseUrl("http://localhost:8083/product")
+                .baseUrl("http://bussinessdomain.product/product")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultUriVariables(Collections.singletonMap("url", "http://localhost:8083/product"))
+                .defaultUriVariables(Collections.singletonMap("url", "http://bussinessdomain.product/product"))
                 .build();
         JsonNode block = build.method(HttpMethod.GET).uri("/"+ id)
                 .retrieve().bodyToMono(JsonNode.class).block();
@@ -114,4 +117,27 @@ public class CustomerRestController {
         return name;
 
     }
+
+    /**
+     * Call Transaction Microservice and Find all transaction that belong to the account give
+     * @param iban account number of the customer
+     * @return All transaction that belong this account
+     */
+    private  List<?> getTransactions(String  iban) {
+        WebClient build = webClientBuilder.clientConnector(new ReactorClientHttpConnector(client))
+                .baseUrl("http://bussinessdomain.trasactions/transaction")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+
+        List<?> transactions = build.method(HttpMethod.GET).uri(uriBuilder -> uriBuilder
+                        .path("/customer/transactions")
+                        .queryParam("ibanAccount", iban)
+                        .build())
+                .retrieve().bodyToFlux(Object.class).collectList().block();
+
+
+        return transactions;
+    }
+
 }
